@@ -6,21 +6,21 @@
     <title>The Reasons I Love You</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom Tailwind CSS configuration for colors and fonts -->
     <script>
-        // Custom Tailwind CSS configuration for colors and fonts
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'cream': '#F8F7F4', // Soft, warm off-white
-                        'maroon': '#800000', // Deep red
-                        'blush-pink': '#EA4C89', // Deeper, more visible pink
-                        'mustard': '#FFDB58', // Yellowish-brown
+                        'cream': '#F8F7F4', /* Soft, warm off-white */
+                        'maroon': '#800000', /* Deep red */
+                        'blush-pink': '#EA4C89', /* Deeper, more visible pink */
+                        'mustard': '#FFDB58', /* Yellowish-brown */
                     },
                     fontFamily: {
-                        // Using Playfair Display as the elegant serif font
+                        /* Using Playfair Display as the elegant serif font */
                         'playfair': ['"Playfair Display"', 'serif'],
-                        // Using Great Vibes as the cursive font
+                        /* Using Great Vibes as the cursive font */
                         'great-vibes': ['"Great Vibes"', 'cursive'],
                     }
                 }
@@ -28,7 +28,7 @@
         }
     </script>
     <!-- Google Fonts for Playfair Display and Great Vibes -->
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Great+Vibes&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -164,7 +164,8 @@
                 font-size: 0.9rem;
             }
         }
-         @media (min-width: 641px) {
+
+        @media (min-width: 641px) {
             /* Adjustments for larger screens if needed, Tailwind's sm: md: will handle */
             .page .reason-text {
                 font-size: 1.875rem; /* sm:text-3xl */
@@ -176,7 +177,6 @@
                 font-size: 1.25rem; /* sm:text-2xl */
             }
         }
-
 
         /* Custom styles for scattered hearts on cover */
         .scattered-hearts {
@@ -232,6 +232,7 @@
             border: 4px solid var(--tw-colors-blush-pink); /* Proper border */
             margin-bottom: 1rem; /* Space between image and caption */
         }
+
         .single-photo-page-image {
             position: absolute;
             top: 0;
@@ -241,6 +242,7 @@
             object-fit: cover; /* Images will cover the entire box, potentially cropping */
             border-radius: 0.75rem; /* Slightly smaller radius for visual border */
         }
+
         .single-photo-caption {
             font-family: 'Great Vibes', cursive; /* Kept cursive for captions for style */
             font-size: 1.75rem; /* Larger for single image */
@@ -250,27 +252,25 @@
     </style>
 </head>
 <body>
-
     <h1 class="text-3xl sm:text-4xl font-extrabold text-pink-700 mb-6 text-center">💖 The Reasons I Love You 💖</h1>
-
     <div class="flipbook-container">
         <!-- Page 1: Title Page -->
         <div id="page-1" class="page active">
             <div class="scattered-hearts">
                 <span class="heart">❤️</span>
                 <span class="heart">💖</span>
-                <span class="heart">💕</span>
-                <span class="heart">💞</span>
-                <span class="heart">💗</span>
+                <span class="heart">💝</span>
                 <span class="heart">💘</span>
                 <span class="heart">💓</span>
+                <span class="heart">💕</span>
+                <span class="heart">💞</span>
             </div>
             <div class="page-content relative z-10">
                 <h2 class="font-playfair text-3xl sm:text-4xl font-bold text-maroon mb-4">You are the reason...</h2>
                 <p class="font-great-vibes text-2xl sm:text-3xl text-blush-pink italic">
                     ...my heart smiles.
                 </p>
-                <span class="text-6xl mt-6">😊</span>
+                <span class="text-6xl mt-6">🥰</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
@@ -280,7 +280,7 @@
             <div class="page-content">
                 <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 1</p>
                 <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">CHAHE SAB BADAL JAAYE, AAP MELE LIYE HMESA WHI REHTI HO.</p>
-                <span class="heart-icon text-mustard text-3xl mt-6">✄1�7</span>
+                <span class="heart-icon text-mustard text-3xl mt-6">❤️</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
@@ -288,7 +288,7 @@
             <div class="page-content">
                 <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 2</p>
                 <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">AAP MUJHE JO GEHRA PYAR KARTI, BILKUL SBSE JYADA WALA.</p>
-                <span class="heart-icon text-blush-pink text-3xl mt-6">🫂</span>
+                <span class="heart-icon text-blush-pink text-3xl mt-6">💝</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
@@ -312,7 +312,7 @@
             <div class="page-content">
                 <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 5</p>
                 <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">AAPNE MUJHE APNA SBSE PYALA FIRST PRIORITY BNA LIYE, A GIFT I TREASURE.</p>
-                <span class="heart-icon text-mustard text-3xl mt-6">🌟</span>
+                <span class="heart-icon text-mustard text-3xl mt-6">🎁</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
@@ -328,7 +328,7 @@
             <div class="page-content">
                 <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 7</p>
                 <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">AAPKI WO JADUI SAKTI JO MUJHE KISI B WAKT(SAD/GUSSA/DEPRESSED) HNSA DETI.</p>
-                <span class="heart-icon text-mustard text-3xl mt-6">😂</span>
+                <span class="heart-icon text-mustard text-3xl mt-6">😄</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
@@ -336,7 +336,7 @@
             <div class="page-content">
                 <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 8</p>
                 <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">WO JO AAP HMESA MUJHE GUIDE KARTI HO MERI MISTAKES PE AND HELP ME GROW.</p>
-                <span class="heart-icon text-blush-pink text-3xl mt-6">😌</span>
+                <span class="heart-icon text-blush-pink text-3xl mt-6">💡</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
@@ -344,7 +344,7 @@
             <div class="page-content">
                 <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 9</p>
                 <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">AAPKE HONE KA WO AEHSAS JO MUJHE CHINTA GUSSA ETC. KO OVERCOME KRNE ME HELP KARTA.</p>
-                <span class="heart-icon text-mustard text-3xl mt-6">✄1�7</span>
+                <span class="heart-icon text-mustard text-3xl mt-6">❤️</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
@@ -352,7 +352,7 @@
             <div class="page-content">
                 <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 10</p>
                 <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">AAP WO SAFE SPACE HO JHA I CAN BE TRULY VULNERABLE AND AUTHENTIC.</p>
-                <span class="heart-icon text-blush-pink text-3xl mt-6">💪</span>
+                <span class="heart-icon text-blush-pink text-3xl mt-6">🤗</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
@@ -360,7 +360,7 @@
             <div class="page-content">
                 <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 11</p>
                 <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">AAPKI PERSONALITY SBSE BEST H OLL AAP B OLL MAI B BESTAM BEST.</p>
-                <span class="heart-icon text-mustard text-3xl mt-6">🎁</span>
+                <span class="heart-icon text-mustard text-3xl mt-6">⭐</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
@@ -368,7 +368,7 @@
             <div class="page-content">
                 <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 12</p>
                 <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">WO TRIKA JIS SE AAP CHIZO KO DEKHTI HO OR WORLD SE INTERACT KARTI.</p>
-                <span class="heart-icon text-blush-pink text-3xl mt-6">🌟</span>
+                <span class="heart-icon text-blush-pink text-3xl mt-6">💋</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
@@ -376,7 +376,7 @@
             <div class="page-content">
                 <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 13</p>
                 <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">WO SMILE JO MERI BURE SE BURE DIN KO ACHA BNA DE.</p>
-                <span class="heart-icon text-mustard text-3xl mt-6">✄1�7</span>
+                <span class="heart-icon text-mustard text-3xl mt-6">😊</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
@@ -384,7 +384,7 @@
             <div class="page-content">
                 <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 14</p>
                 <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">APKI PRESENCE ORR APKE HR EK PAAL MERE LIYE MOST KHAS H.</p>
-                <span class="heart-icon text-blush-pink text-3xl mt-6">💡</span>
+                <span class="heart-icon text-blush-pink text-3xl mt-6">✨</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
@@ -392,7 +392,7 @@
             <div class="page-content">
                 <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 15</p>
                 <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">WO JO AAP HR CHOTI CHOTI BAAT SIKHATI APNE BACHU KO.</p>
-                <span class="heart-icon text-mustard text-3xl mt-6">🕊︄1�7</span>
+                <span class="heart-icon text-mustard text-3xl mt-6">📖</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
@@ -400,7 +400,7 @@
             <div class="page-content">
                 <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 16</p>
                 <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">AAP MELE HL EK BUDHU JESE KAAMO ME SATH DETI AND I LOVE YOU BEING WITH ME MOST.</p>
-                <span class="heart-icon text-blush-pink text-3xl mt-6">🧠</span>
+                <span class="heart-icon text-blush-pink text-3xl mt-6">😂</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
@@ -408,7 +408,7 @@
             <div class="page-content">
                 <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 17</p>
                 <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">CHAT KRTE HUE B, I FIND MYSELF MISSING YOU ALREADY.</p>
-                <span class="heart-icon text-mustard text-3xl mt-6">⏄1�7</span>
+                <span class="heart-icon text-mustard text-3xl mt-6">😔</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
@@ -416,15 +416,15 @@
             <div class="page-content">
                 <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 18</p>
                 <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">AAPKI WO MEHEK, JO MERI SOUL MATE KI HI HO SKTI.</p>
-                <span class="heart-icon text-blush-pink text-3xl mt-6">🤍</span>
+                <span class="heart-icon text-blush-pink text-3xl mt-6">🌸</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
         <div id="page-20" class="page">
             <div class="page-content">
                 <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 19</p>
-                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">**DEKA H JB SE TUJHKO HAI MAI TOH HIL GYA😍** HEART RACE KR DETI BUDHU MELI.</p>
-                <span class="heart-icon text-mustard text-3xl mt-6">🏡</span>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">**DEKA H JB SE TUJHKO HAI MAI TOH HIL GYA🥰** HEART RACE KR DETI BUDHU MELI.</p>
+                <span class="heart-icon text-mustard text-3xl mt-6">💓</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
@@ -494,8 +494,8 @@
             <div class="page-content">
                 <h2 class="font-playfair text-2xl sm:text-3xl font-semibold text-maroon mb-6">Open When...</h2>
                 <p class="font-playfair text-xl sm:text-2xl text-maroon leading-relaxed">...you miss me</p>
-                <p class="font-playfair text-base sm:text-lg text-blush-pink mt-4">Jaanu mela bacha mai hmesa aapke sath huu💋💋💋, hr smay aapke dil me.</p>
-                <span class="heart-icon text-mustard text-3xl mt-6">Missing You 😔</span>
+                <p class="font-playfair text-base sm:text-lg text-blush-pink mt-4">Jaanu mela bacha mai hmesa aapke sath huu🫂🫂🫂, hr smay aapke dil me.</p>
+                <span class="heart-icon text-mustard text-3xl mt-6">Missing You 🥺</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
@@ -503,7 +503,7 @@
             <div class="page-content">
                 <h2 class="font-playfair text-2xl sm:text-3xl font-semibold text-maroon mb-6">Open When...</h2>
                 <p class="font-playfair text-xl sm:text-2xl text-maroon leading-relaxed">...you're sad</p>
-                <p class="font-playfair text-base sm:text-lg text-blush-pink mt-4">Ale le mela bacha sad mt ho😭, wlna daddu b sad ho jaayega oll aap esa nhi chahti n😏</p>
+                <p class="font-playfair text-base sm:text-lg text-blush-pink mt-4">Ale le mela bacha sad mt ho😥, wlna daddu b sad ho jaayega oll aap esa nhi chahti n🥺</p>
                 <span class="heart-icon text-blush-pink text-3xl mt-6">Cheer Up Buttercup 😊</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
@@ -512,8 +512,8 @@
             <div class="page-content">
                 <h2 class="font-playfair text-2xl sm:text-3xl font-semibold text-maroon mb-6">Open When...</h2>
                 <p class="font-playfair text-xl sm:text-2xl text-maroon leading-relaxed">...you want to feel loved</p>
-                <p class="font-playfair text-base sm:text-lg text-blush-pink mt-4">Jaanu mai aapse sbse jyada pyal klta, oll hmesa klunga meli first priority khiki🧿🫂</p>
-                <span class="heart-icon text-mustard text-3xl mt-6">You Are Loved 💕</span>
+                <p class="font-playfair text-base sm:text-lg text-blush-pink mt-4">Jaanu mai aapse sbse jyada pyal klta, oll hmesa klunga meli first priority khiki🏆💝</p>
+                <span class="heart-icon text-mustard text-3xl mt-6">You Are Loved 💖</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
@@ -525,13 +525,15 @@
                     "I don’t just love you—I choose you. Always."
                 </p>
                 <p class="font-playfair text-lg sm:text-xl text-blush-pink mt-8">Your forever and always,</p>
-                <p class="font-great-vibes text-2xl sm:text-3xl text-mustard mt-2"> Bubu ~ Anu Ka Aryan </p>
+                <p class="font-great-vibes text-2xl sm:text-3xl text-mustard mt-2">
+                    Bubu ~ Anu Ka Aryan
+                </p>
             </div>
             <div class="scattered-hearts">
-                <span class="heart text-blush-pink text-4xl top-[60%] left-[20%]">✄1�7</span>
-                <span class="heart text-mustard text-3xl top-[75%] right-[15%]">🌟</span>
+                <span class="heart text-blush-pink text-4xl top-[60%] left-[20%]">❤️</span>
+                <span class="heart text-mustard text-3xl top-[75%] right-[15%]">💋</span>
                 <span class="heart text-blush-pink text-2xl top-[85%] left-[5%]">💖</span>
-                <span class="heart text-mustard text-2xl top-[65%] right-[5%]">💫</span>
+                <span class="heart text-mustard text-2xl top-[65%] right-[5%]">💞</span>
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
@@ -552,10 +554,10 @@
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
             const flipbookContainer = document.querySelector('.flipbook-container');
+
             let currentPageIndex = 0;
             let touchStartX = 0;
             let touchEndX = 0;
-
             const totalPages = pages.length; // Corrected total pages count
 
             /**
@@ -630,7 +632,6 @@
                     outgoingPage.classList.add('flipped-left'); // This class sets transform: rotateY(-180deg)
                     outgoingPage.style.zIndex = '5'; // Send it behind the incoming page
 
-
                     // Update the global current page index AFTER initiating animations
                     currentPageIndex++;
 
@@ -666,7 +667,6 @@
                     outgoingPage.style.transform = 'rotateY(180deg)'; // Directly set to flip right
                     outgoingPage.style.zIndex = '5'; // Send it behind
 
-
                     // Update the global current page index AFTER initiating animations
                     currentPageIndex--;
 
@@ -696,7 +696,6 @@
              */
             function handleSwipeGesture() {
                 const swipeThreshold = 50; // Minimum pixel distance for a swipe
-
                 if (touchEndX < touchStartX - swipeThreshold) {
                     // Swiped left (next page)
                     goToNextPage();
@@ -710,7 +709,5 @@
             updatePages();
         });
     </script>
-
 </body>
 </html>
-
