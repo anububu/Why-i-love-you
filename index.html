@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Reasons I Love You</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Custom Tailwind CSS configuration for colors and fonts
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cream': '#F8F7F4', // Soft, warm off-white
+                        'maroon': '#800000', // Deep red
+                        'blush-pink': '#EA4C89', // Deeper, more visible pink
+                        'mustard': '#FFDB58', // Yellowish-brown
+                    },
+                    fontFamily: {
+                        // Using Playfair Display as the elegant serif font
+                        'playfair': ['"Playfair Display"', 'serif'],
+                        // Using Great Vibes as the cursive font
+                        'great-vibes': ['"Great Vibes"', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts for Playfair Display and Great Vibes -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fce7f3; /* Soft pink background */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden; /* Prevent horizontal scroll due to potential transforms */
+        }
+
+        .flipbook-container {
+            position: relative;
+            width: 95%; /* Responsive width for mobile */
+            max-width: 400px; /* Max width for larger screens to keep it contained */
+            height: 60vh; /* Responsive height */
+            max-height: 600px; /* Max height */
+            perspective: 1200px; /* For 3D flip effect */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            overflow: hidden; /* Hide overflow during flips */
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            border-radius: 10px;
+            backface-visibility: hidden; /* Hide back of the page during flip */
+            transform-style: preserve-3d; /* Keep children in 3D space */
+            transform-origin: left center; /* Pivot point for flipping from left */
+            transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1); /* Smooth animation */
+            padding: 20px; /* Increased padding for mobile content */
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            overflow-y: auto; /* Allow scrolling if content is long */
+            text-align: center; /* Center text */
+        }
+
+        .page.active {
+            z-index: 10; /* Bring active page to front */
+            transform: rotateY(0deg);
+        }
+
+        .page.flipped-left {
+            transform: rotateY(-180deg);
+            z-index: 5; /* Ensure it stays behind the new active page */
+        }
+
+        .page.flipped-right {
+            transform: rotateY(0deg); /* Reset if flipped from right to left */
+            z-index: 5;
+        }
+
+        /* Initial state for pages (hidden) */
+        .page:not(.active) {
+            transform: rotateY(0deg); /* Default for inactive pages not involved in current animation */
+            z-index: 1; /* Default z-index for inactive pages */
+        }
+
+        .page-content {
+            flex-grow: 0; /* Don't grow, just center */
+            width: 100%;
+        }
+
+        /* Styles for navigation buttons */
+        .nav-button {
+            background-color: #ec4899; /* Pink */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 9999px; /* Full rounded */
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-button:hover {
+            background-color: #db2777; /* Darker pink */
+            transform: translateY(-2px);
+        }
+
+        .nav-button:disabled {
+            background-color: #fbcfe8; /* Lighter pink for disabled */
+            color: #be185d;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .arrow-icon {
+            margin: 0 5px;
+        }
+
+        /* Mobile specific adjustments (Tailwind handles most, but for fine-tuning) */
+        @media (max-width: 640px) {
+            .flipbook-container {
+                height: 75vh; /* Taller on smaller mobile screens */
+                width: 98%;
+            }
+            /* Adjusted font sizes for mobile for reason text */
+            .page .reason-text {
+                font-size: 1.5rem; /* Base for smaller screens */
+                line-height: 1.4;
+            }
+            .page .reason-number {
+                font-size: 1.125rem; /* Base for smaller screens */
+            }
+            .page .photo-caption {
+                font-size: 1.125rem; /* Base for smaller screens */
+            }
+            .page h2 {
+                font-size: 1.75rem; /* Slightly larger headings */
+            }
+            .page p {
+                font-size: 0.95rem; /* Slightly larger body text for open when */
+            }
+            .nav-button {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+         @media (min-width: 641px) {
+            /* Adjustments for larger screens if needed, Tailwind's sm: md: will handle */
+            .page .reason-text {
+                font-size: 1.875rem; /* sm:text-3xl */
+            }
+            .page .reason-number {
+                font-size: 1.25rem; /* sm:text-2xl */
+            }
+            .page .photo-caption {
+                font-size: 1.25rem; /* sm:text-2xl */
+            }
+        }
+
+
+        /* Custom styles for scattered hearts on cover */
+        .scattered-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allow clicks through hearts */
+            overflow: hidden;
+            z-index: 0; /* Ensure hearts are behind content */
+        }
+
+        .scattered-hearts .heart {
+            position: absolute;
+            font-size: 2rem;
+            color: var(--tw-colors-blush-pink);
+            opacity: 0.6;
+            animation: float 8s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 0.6; }
+            50% { transform: translateY(-15px); opacity: 0.8; }
+            100% { transform: translateY(0); opacity: 0.6; }
+        }
+
+        /* Random positioning for scattered hearts on cover */
+        .heart:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
+        .heart:nth-child(2) { top: 25%; right: 10%; font-size: 1.5rem; opacity: 0.5; animation-delay: 1s; }
+        .heart:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 2s; }
+        .heart:nth-child(4) { top: 40%; left: 5%; font-size: 1.8rem; opacity: 0.7; animation-delay: 0.5s; }
+        .heart:nth-child(5) { bottom: 10%; right: 15%; animation-delay: 1.5s; }
+        .heart:nth-child(6) { top: 5%; right: 5%; font-size: 1.2rem; opacity: 0.4; animation-delay: 2.5s; }
+        .heart:nth-child(7) { bottom: 5%; left: 50%; font-size: 2.2rem; opacity: 0.8; animation-delay: 3s; }
+
+        /* Heart icon styling for various sections */
+        .page .heart-icon {
+            color: var(--tw-colors-blush-pink);
+            font-size: 1.5rem;
+            margin: 0 0.25rem;
+        }
+
+        /* Container to enforce aspect ratio for images */
+        .image-aspect-ratio-box {
+            width: 90%; /* Occupy more width within the section */
+            /* New ratio: height is 3/4 of width. So padding-bottom is (3/4)*100% */
+            padding-bottom: calc(100% * 3 / 4); /* Creates a 4:3 width:height aspect ratio */
+            position: relative;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            border: 4px solid var(--tw-colors-blush-pink); /* Proper border */
+            margin-bottom: 1rem; /* Space between image and caption */
+        }
+        .single-photo-page-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Images will cover the entire box, potentially cropping */
+            border-radius: 0.75rem; /* Slightly smaller radius for visual border */
+        }
+        .single-photo-caption {
+            font-family: 'Great Vibes', cursive; /* Kept cursive for captions for style */
+            font-size: 1.75rem; /* Larger for single image */
+            color: #333;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-pink-700 mb-6 text-center">馃挅 The Reasons I Love You 馃挅</h1>
+
+    <div class="flipbook-container">
+        <!-- Page 1: Title Page -->
+        <div id="page-1" class="page active">
+            <div class="scattered-hearts">
+                <span class="heart">鉂わ笍</span>
+                <span class="heart">馃挅</span>
+                <span class="heart">馃挄</span>
+                <span class="heart">馃挒</span>
+                <span class="heart">馃挆</span>
+                <span class="heart">馃挊</span>
+                <span class="heart">馃挀</span>
+            </div>
+            <div class="page-content relative z-10">
+                <h2 class="font-playfair text-3xl sm:text-4xl font-bold text-maroon mb-4">You are the reason...</h2>
+                <p class="font-great-vibes text-2xl sm:text-3xl text-blush-pink italic">
+                    ...my heart smiles.
+                </p>
+                <span class="text-6xl mt-6">馃槉</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+
+        <!-- Pages 2-21: Reasons Pages (20 reasons) -->
+        <div id="page-2" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 1</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">CHAHE SAB BADAL JAAYE, AAP MELE LIYE HMESA WHI REHTI HO.</p>
+                <span class="heart-icon text-mustard text-3xl mt-6">鉁�</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-3" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 2</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">AAP MUJHE JO GEHRA PYAR KARTI, BILKUL SBSE JYADA WALA.</p>
+                <span class="heart-icon text-blush-pink text-3xl mt-6">馃珎</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-4" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 3</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">AAP WO ATUT VISWAS OR SUPPORT MERE HR EK SAPNE OR DECISIONS KE LIYE.</p>
+                <span class="heart-icon text-mustard text-3xl mt-6">馃</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-5" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 4</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">AAPKA WO CONSTANT DESIRE, JO AAP MUJHE HMESA KHUS OR HEALTHY DEKHNA CHAHTI.</p>
+                <span class="heart-icon text-blush-pink text-3xl mt-6">馃挅</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-6" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 5</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">AAPNE MUJHE APNA SBSE PYALA FIRST PRIORITY BNA LIYE, A GIFT I TREASURE.</p>
+                <span class="heart-icon text-mustard text-3xl mt-6">馃専</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-7" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 6</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">JO KOI SOCH NHI SKTA UTNE DEEPLY AAP MELI CARE KARTI, TRULY EXCEEDS MY EXPECTATIONS.</p>
+                <span class="heart-icon text-blush-pink text-3xl mt-6">鉂わ笍</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-8" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 7</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">AAPKI WO JADUI SAKTI JO MUJHE KISI B WAKT(SAD/GUSSA/DEPRESSED) HNSA DETI.</p>
+                <span class="heart-icon text-mustard text-3xl mt-6">馃槀</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-9" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 8</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">WO JO AAP HMESA MUJHE GUIDE KARTI HO MERI MISTAKES PE AND HELP ME GROW.</p>
+                <span class="heart-icon text-blush-pink text-3xl mt-6">馃槍</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-10" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 9</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">AAPKE HONE KA WO AEHSAS JO MUJHE CHINTA GUSSA ETC. KO OVERCOME KRNE ME HELP KARTA.</p>
+                <span class="heart-icon text-mustard text-3xl mt-6">鉁�</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-11" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 10</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">AAP WO SAFE SPACE HO JHA I CAN BE TRULY VULNERABLE AND AUTHENTIC.</p>
+                <span class="heart-icon text-blush-pink text-3xl mt-6">馃挭</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-12" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 11</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">AAPKI PERSONALITY SBSE BEST H OLL AAP B OLL MAI B BESTAM BEST.</p>
+                <span class="heart-icon text-mustard text-3xl mt-6">馃巵</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-13" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 12</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">WO TRIKA JIS SE AAP CHIZO KO DEKHTI HO OR WORLD SE INTERACT KARTI.</p>
+                <span class="heart-icon text-blush-pink text-3xl mt-6">馃専</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-14" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 13</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">WO SMILE JO MERI BURE SE BURE DIN KO ACHA BNA DE.</p>
+                <span class="heart-icon text-mustard text-3xl mt-6">鉁�</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-15" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 14</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">APKI PRESENCE ORR APKE HR EK PAAL MERE LIYE MOST KHAS H.</p>
+                <span class="heart-icon text-blush-pink text-3xl mt-6">馃挕</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-16" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 15</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">WO JO AAP HR CHOTI CHOTI BAAT SIKHATI APNE BACHU KO.</p>
+                <span class="heart-icon text-mustard text-3xl mt-6">馃晩锔�</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-17" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 16</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">AAP MELE HL EK BUDHU JESE KAAMO ME SATH DETI AND I LOVE YOU BEING WITH ME MOST.</p>
+                <span class="heart-icon text-blush-pink text-3xl mt-6">馃</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-18" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 17</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">CHAT KRTE HUE B, I FIND MYSELF MISSING YOU ALREADY.</p>
+                <span class="heart-icon text-mustard text-3xl mt-6">鈴�</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-19" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 18</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">AAPKI WO MEHEK, JO MERI SOUL MATE KI HI HO SKTI.</p>
+                <span class="heart-icon text-blush-pink text-3xl mt-6">馃</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-20" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 19</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">**DEKA H JB SE TUJHKO HAI MAI TOH HIL GYA馃槏** HEART RACE KR DETI BUDHU MELI.</p>
+                <span class="heart-icon text-mustard text-3xl mt-6">馃彙</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-21" class="page">
+            <div class="page-content">
+                <p class="font-great-vibes text-xl sm:text-2xl text-blush-pink mb-4 reason-number">Reason 20</p>
+                <p class="font-playfair text-2xl sm:text-3xl text-maroon leading-relaxed reason-text">AUR B ANGINAT REASONS H KI WHY I LOVE YOU.</p>
+                <span class="heart-icon text-blush-pink text-3xl mt-6">馃挅</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+
+        <!-- Pages 22-26: Photo Memory Pages (5 pages, 1 pic each) -->
+        <div id="page-22" class="page">
+            <div class="page-content">
+                <h2 class="font-playfair text-2xl sm:text-3xl font-semibold text-maroon mb-6">Cherished Moments</h2>
+                <div class="image-aspect-ratio-box">
+                    <img src="https://i.ibb.co/gZvZ6RXh/IMG-20240127-WA0051.jpg" alt="Our Enchanting First Date" class="single-photo-page-image">
+                </div>
+                <span class="single-photo-caption text-lg sm:text-xl photo-caption">Our Enchanting First Date</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-23" class="page">
+            <div class="page-content">
+                <h2 class="font-playfair text-2xl sm:text-3xl font-semibold text-maroon mb-6">Sweet Memories</h2>
+                <div class="image-aspect-ratio-box">
+                    <img src="https://i.ibb.co/8grkkwMq/IMG-20240902-212201-258.jpg" alt="Sweet Whispers on Our Mandir Date" class="single-photo-page-image">
+                </div>
+                <span class="single-photo-caption text-lg sm:text-xl photo-caption">Sweet Whispers on Our Mandir Date</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-24" class="page">
+            <div class="page-content">
+                <h2 class="font-playfair text-2xl sm:text-3xl font-semibold text-maroon mb-6">Unforgettable Times</h2>
+                <div class="image-aspect-ratio-box">
+                    <img src="https://i.ibb.co/yBbssrSZ/Video-Capture-20241019-095435.jpg" alt="That Unforgettable, Passionate Day" class="single-photo-page-image">
+                </div>
+                <span class="single-photo-caption text-lg sm:text-xl photo-caption">That Unforgettable, Passionate Day</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-25" class="page">
+            <div class="page-content">
+                <h2 class="font-playfair text-2xl sm:text-3xl font-semibold text-maroon mb-6">Milestone Moments</h2>
+                <div class="image-aspect-ratio-box">
+                    <img src="https://i.ibb.co/wrRFGRYZ/IMG-20241117-WA0030-1.jpg" alt="The Magical Day of Our Engagement" class="single-photo-page-image">
+                </div>
+                <span class="single-photo-caption text-lg sm:text-xl photo-caption">The Magical Day of Our Engagement 馃拲</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-26" class="page">
+            <div class="page-content">
+                <h2 class="font-playfair text-2xl sm:text-3xl font-semibold text-maroon mb-6">Joyful Adventures</h2>
+                <div class="image-aspect-ratio-box">
+                    <img src="https://i.ibb.co/60x3r67N/IMG-20250218-WA0032.jpg" alt="Perfect Moments on Our Picnic Date" class="single-photo-page-image">
+                </div>
+                <span class="single-photo-caption text-lg sm:text-xl photo-caption">Perfect Moments on Our Picnic Date</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+
+        <!-- Pages 27-29: Open When Pages -->
+        <div id="page-27" class="page">
+            <div class="page-content">
+                <h2 class="font-playfair text-2xl sm:text-3xl font-semibold text-maroon mb-6">Open When...</h2>
+                <p class="font-playfair text-xl sm:text-2xl text-maroon leading-relaxed">...you miss me</p>
+                <p class="font-playfair text-base sm:text-lg text-blush-pink mt-4">Jaanu mela bacha mai hmesa aapke sath huu馃拫馃拫馃拫, hr smay aapke dil me.</p>
+                <span class="heart-icon text-mustard text-3xl mt-6">Missing You 馃様</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-28" class="page">
+            <div class="page-content">
+                <h2 class="font-playfair text-2xl sm:text-3xl font-semibold text-maroon mb-6">Open When...</h2>
+                <p class="font-playfair text-xl sm:text-2xl text-maroon leading-relaxed">...you're sad</p>
+                <p class="font-playfair text-base sm:text-lg text-blush-pink mt-4">Ale le mela bacha sad mt ho馃槶, wlna daddu b sad ho jaayega oll aap esa nhi chahti n馃槒</p>
+                <span class="heart-icon text-blush-pink text-3xl mt-6">Cheer Up Buttercup 馃槉</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+        <div id="page-29" class="page">
+            <div class="page-content">
+                <h2 class="font-playfair text-2xl sm:text-3xl font-semibold text-maroon mb-6">Open When...</h2>
+                <p class="font-playfair text-xl sm:text-2xl text-maroon leading-relaxed">...you want to feel loved</p>
+                <p class="font-playfair text-base sm:text-lg text-blush-pink mt-4">Jaanu mai aapse sbse jyada pyal klta, oll hmesa klunga meli first priority khiki馃Э馃珎</p>
+                <span class="heart-icon text-mustard text-3xl mt-6">You Are Loved 馃挄</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+
+        <!-- Page 30: Final Note -->
+        <div id="page-30" class="page">
+            <div class="page-content relative z-10">
+                <p class="font-great-vibes text-3xl sm:text-4xl italic leading-relaxed text-maroon" style="text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);">
+                    "I don鈥檛 just love you鈥擨 choose you. Always."
+                </p>
+                <p class="font-playfair text-lg sm:text-xl text-blush-pink mt-8">Your forever and always,</p>
+                <p class="font-great-vibes text-2xl sm:text-3xl text-mustard mt-2"> Bubu ~ Anu Ka Aryan </p>
+            </div>
+            <div class="scattered-hearts">
+                <span class="heart text-blush-pink text-4xl top-[60%] left-[20%]">鉁�</span>
+                <span class="heart text-mustard text-3xl top-[75%] right-[15%]">馃専</span>
+                <span class="heart text-blush-pink text-2xl top-[85%] left-[5%]">馃挅</span>
+                <span class="heart text-mustard text-2xl top-[65%] right-[5%]">馃挮</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+    </div>
+
+    <div class="flex space-x-4 mt-6 w-full max-w-sm justify-center">
+        <button id="prevBtn" class="nav-button flex-1">
+            <span class="arrow-icon">&larr;</span> Previous
+        </button>
+        <button id="nextBtn" class="nav-button flex-1">
+            Next <span class="arrow-icon">&rarr;</span>
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pages = Array.from(document.querySelectorAll('.page'));
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const flipbookContainer = document.querySelector('.flipbook-container');
+            let currentPageIndex = 0;
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            const totalPages = pages.length; // Corrected total pages count
+
+            /**
+             * Updates the visibility and classes of pages based on the current index.
+             * Disables/enables navigation buttons and updates page number display.
+             */
+            function updatePages() {
+                pages.forEach((page, index) => {
+                    // Reset all page classes and hide them initially
+                    page.classList.remove('active', 'flipped-left', 'flipped-right');
+                    page.style.display = 'none';
+
+                    if (index === currentPageIndex) {
+                        // The currently active page
+                        page.classList.add('active');
+                        page.style.display = 'flex'; // Show it
+                        page.style.transform = 'rotateY(0deg)'; // Ensure it's flat
+                        page.style.zIndex = '10'; // Bring to front
+                    } else if (index < currentPageIndex) {
+                        // Pages that have already been flipped to the left (past pages)
+                        page.classList.add('flipped-left');
+                        page.style.display = 'flex'; // Keep it displayed during flip (if still transitioning)
+                        page.style.transform = 'rotateY(-180deg)'; // Its final flipped state
+                        page.style.zIndex = '5'; // Place behind the active page
+                    } else {
+                        // Future pages, not yet active
+                        page.style.transform = 'rotateY(0deg)'; // Default flat state, will be hidden
+                        page.style.zIndex = '1'; // Default z-index
+                    }
+                });
+
+                prevBtn.disabled = currentPageIndex === 0;
+                nextBtn.disabled = currentPageIndex === pages.length - 1;
+                updatePageNumberDisplay();
+            }
+
+            /**
+             * Updates the page number display (e.g., "Page X of Y").
+             */
+            function updatePageNumberDisplay() {
+                pages.forEach((page, index) => {
+                    const pageNumberDiv = page.querySelector('.page-number-display');
+                    if (pageNumberDiv) {
+                        pageNumberDiv.textContent = `Page ${currentPageIndex + 1} of ${totalPages}`;
+                    }
+                });
+            }
+
+            /**
+             * Navigates to the next page with a forward flip animation.
+             */
+            function goToNextPage() {
+                if (currentPageIndex < pages.length - 1) {
+                    const outgoingPage = pages[currentPageIndex]; // The page currently visible (active)
+                    const incomingPage = pages[currentPageIndex + 1]; // The page that will become active
+
+                    // Set initial state for incoming page (flipped 180deg to the right, hidden)
+                    incomingPage.style.transform = 'rotateY(180deg)';
+                    incomingPage.style.display = 'flex';
+                    incomingPage.style.zIndex = '10'; // Bring to front for the incoming animation
+                    incomingPage.style.transformOrigin = 'left center'; // Pivot from left
+
+                    // Force reflow to ensure the browser registers the initial 180deg transform
+                    // before applying the final 0deg transform. This is crucial for the animation to play.
+                    void incomingPage.offsetWidth;
+
+                    // Apply active state to incoming page to trigger the flip from 180deg to 0deg
+                    incomingPage.classList.add('active');
+
+                    // Set outgoing page to flip away
+                    outgoingPage.classList.remove('active');
+                    outgoingPage.classList.add('flipped-left'); // This class sets transform: rotateY(-180deg)
+                    outgoingPage.style.zIndex = '5'; // Send it behind the incoming page
+
+
+                    // Update the global current page index AFTER initiating animations
+                    currentPageIndex++;
+
+                    // After animation completes, clean up and set correct states
+                    setTimeout(() => {
+                        updatePages(); // Re-apply proper transforms and z-indices for all pages
+                    }, 800); // Duration should match CSS transition duration
+                }
+            }
+
+            /**
+             * Navigates to the previous page with a backward flip animation.
+             */
+            function goToPrevPage() {
+                if (currentPageIndex > 0) {
+                    const outgoingPage = pages[currentPageIndex]; // The page currently active
+                    const incomingPage = pages[currentPageIndex - 1]; // The page to become active
+
+                    // Prepare incoming page: start from flipped-left state (-180deg)
+                    incomingPage.style.transform = 'rotateY(-180deg)';
+                    incomingPage.style.display = 'flex';
+                    incomingPage.style.zIndex = '10'; // Bring to front
+                    incomingPage.style.transformOrigin = 'left center'; // Pivot from left
+
+                    // Force reflow
+                    void incomingPage.offsetWidth;
+
+                    // Animate incoming page to active state (0deg)
+                    incomingPage.classList.add('active');
+
+                    // Set outgoing page to flip away (to the right, 180deg)
+                    outgoingPage.classList.remove('active');
+                    outgoingPage.style.transform = 'rotateY(180deg)'; // Directly set to flip right
+                    outgoingPage.style.zIndex = '5'; // Send it behind
+
+
+                    // Update the global current page index AFTER initiating animations
+                    currentPageIndex--;
+
+                    // After animation completes, clean up and set correct states
+                    setTimeout(() => {
+                        updatePages();
+                    }, 800); // Duration should match CSS transition duration
+                }
+            }
+
+            // Event listeners for buttons
+            nextBtn.addEventListener('click', goToNextPage);
+            prevBtn.addEventListener('click', goToPrevPage);
+
+            // Touch event listeners for swipe navigation
+            flipbookContainer.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+
+            flipbookContainer.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipeGesture();
+            });
+
+            /**
+             * Handles the swipe gesture to navigate pages.
+             */
+            function handleSwipeGesture() {
+                const swipeThreshold = 50; // Minimum pixel distance for a swipe
+
+                if (touchEndX < touchStartX - swipeThreshold) {
+                    // Swiped left (next page)
+                    goToNextPage();
+                } else if (touchEndX > touchStartX + swipeThreshold) {
+                    // Swiped right (previous page)
+                    goToPrevPage();
+                }
+            }
+
+            // Initial setup when the page loads
+            updatePages();
+        });
+    </script>
+
+</body>
+</html>
+
