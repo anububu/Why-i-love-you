@@ -249,6 +249,36 @@
             color: #333;
             margin-top: 1rem;
         }
+
+        /* Specific styles for the last page text */
+        #page-30 .main-quote {
+            font-size: 2.25rem; /* text-4xl */
+            font-weight: 700; /* font-bold */
+            color: var(--tw-colors-maroon);
+            line-height: 1.3;
+        }
+
+        #page-30 .closing-line {
+            font-size: 1.5rem; /* text-2xl */
+            color: var(--tw-colors-blush-pink);
+        }
+
+        #page-30 .signature {
+            font-size: 2.5rem; /* text-4xl */
+            color: var(--tw-colors-mustard);
+            line-height: 1.2;
+        }
+
+        /* Style for the gift box emoji */
+        .gift-box-emoji {
+            font-size: 8rem; /* Large size for the emoji */
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .gift-box-emoji:hover {
+            transform: scale(1.1); /* Slightly enlarge on hover/tap */
+        }
     </style>
 </head>
 <body>
@@ -518,14 +548,14 @@
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
 
-        <!-- Page 30: Final Note -->
+        <!-- Page 30: Final Note - Enhanced Visibility -->
         <div id="page-30" class="page">
             <div class="page-content relative z-10">
-                <p class="font-great-vibes text-3xl sm:text-4xl italic leading-relaxed text-maroon" style="text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);">
+                <p class="font-great-vibes italic main-quote" style="text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);">
                     "I don’t just love you—I choose you. Always."
                 </p>
-                <p class="font-playfair text-lg sm:text-xl text-blush-pink mt-8">Your forever and always,</p>
-                <p class="font-great-vibes text-2xl sm:text-3xl text-mustard mt-2">
+                <p class="font-playfair closing-line mt-8">Your forever and always,</p>
+                <p class="font-great-vibes signature mt-2">
                     Bubu ~ Anu Ka Aryan
                 </p>
             </div>
@@ -537,6 +567,17 @@
             </div>
             <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
         </div>
+
+        <!-- Page 31: Gift Page -->
+        <div id="page-31" class="page">
+            <div class="page-content relative z-10">
+                <h2 class="font-playfair text-3xl sm:text-4xl font-bold text-maroon mb-6">Your Special Gift!</h2>
+                <p class="font-playfair text-lg sm:text-xl text-blush-pink mb-8">Tap the gift box to reveal your surprise!</p>
+                <span class="gift-box-emoji" onclick="openWhatsApp()">🎁</span>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm page-number-display"></div>
+        </div>
+
     </div>
 
     <div class="flex space-x-4 mt-6 w-full max-w-sm justify-center">
@@ -558,13 +599,15 @@
             let currentPageIndex = 0;
             let touchStartX = 0;
             let touchEndX = 0;
-            const totalPages = pages.length; // Corrected total pages count
+            // totalPages will be dynamically calculated from pages.length
 
             /**
              * Updates the visibility and classes of pages based on the current index.
              * Disables/enables navigation buttons and updates page number display.
              */
             function updatePages() {
+                const totalPages = pages.length; // Recalculate totalPages on each update
+
                 pages.forEach((page, index) => {
                     // Reset all page classes and hide them initially
                     page.classList.remove('active', 'flipped-left', 'flipped-right');
@@ -598,6 +641,7 @@
              * Updates the page number display (e.g., "Page X of Y").
              */
             function updatePageNumberDisplay() {
+                const totalPages = pages.length; // Recalculate totalPages
                 pages.forEach((page, index) => {
                     const pageNumberDiv = page.querySelector('.page-number-display');
                     if (pageNumberDiv) {
@@ -705,9 +749,18 @@
                 }
             }
 
+            // Function to open WhatsApp
+            window.openWhatsApp = function() {
+                const phoneNumber = '917091241322'; // Phone number without '+'
+                const message = encodeURIComponent('hi my love'); // URL-encode the message
+                const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+                window.open(whatsappUrl, '_blank'); // Open in a new tab
+            };
+
             // Initial setup when the page loads
             updatePages();
         });
     </script>
 </body>
 </html>
+
